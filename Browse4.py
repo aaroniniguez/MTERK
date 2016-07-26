@@ -10,6 +10,7 @@ import time
 import gevent
 import traceback
 import pprint
+import helper
 pp = pprint.PrettyPrinter(indent=4)
 tasks = Queue()
 threads = []
@@ -26,6 +27,8 @@ errors = {
 "success":0,
 "blocked":0
 }
+	data = helper.getArgs()
+	webpage = getIt(data[0])
 def Browse(loginPage):
 	global threads
 	global result
@@ -125,18 +128,21 @@ def download(loginPage):
 					s.close()
 					break
 if __name__ == "__main__":
-	urlList = []
+	data = helper.getArgs()
+	webpage = Browse(data[0])
+	print webpage["output"].text
+	#urlList = []
 	#urlList.append("http://seattle.craigslist.org/fb/sea/hss/5698956365")
 	#urlList.append("http://miami.craigslist.org/fb/mia/hss/5701599465")
 #	urlList.append("http://panamacity.craigslist.org/fb/pfn/hss/5701338855")
 	#urlList.append("http://tucson.craigslist.org/fb/tus/sks/5701478846")
 	#urlList.append("http://raleigh.craigslist.org/fb/ral/hss/5701730773")
 	#urlList.append("http://orangecounty.craigslist.org/fb/orc/hss/5701466978")
-	urlList.append("http://nashville.craigslist.org/fb/nsh/hss/5701649323")
-	for url in urlList:
-		re = Browse(url)
-		if re["output"] != "undefined":
-			print re["errors"]
-			#print re["output"].text
-		else:
-			print re["errors"]
+	#urlList.append("http://nashville.craigslist.org/fb/nsh/hss/5701649323")
+	#for url in urlList:
+	#	re = Browse(url)
+	#	if re["output"] != "undefined":
+	#		print re["errors"]
+	#		#print re["output"].text
+	#	else:
+	#		print re["errors"]

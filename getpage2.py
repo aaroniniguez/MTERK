@@ -58,7 +58,6 @@ def getIt(data1):
 		return False
 if __name__ == "__main__":
 	data = helper.getArgs()
-	data = ["google.com"]
 	webpage = getIt(data[0])
 	if (webpage):
 		print "Access-Control-Allow-Headers: Content-type, Status"
