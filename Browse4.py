@@ -31,7 +31,7 @@ def Browse(loginPage):
 	global result
 	global errors
 	result = "undefined"
-	f = open("/data/proxies/allproxies.txt")
+	f = open("./allproxies.txt")
 	for line in f:
 		tasks.put(line.replace("\n", ""))
 	f.close()

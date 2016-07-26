@@ -1,13 +1,7 @@
 #!/usr/bin/env python
-import os 
-import sys
 import helper
-sys.path.insert(0,'/data/proxies')
-import urllib
 import lxml.html
 from lxml.etree import tostring
-from tld import get_tld
-import re
 import requests
 #data = ["clp.com/FAQs+1"]
 def getIt(data1):
@@ -64,6 +58,7 @@ def getIt(data1):
 		return False
 if __name__ == "__main__":
 	data = helper.getArgs()
+	data = ["google.com"]
 	webpage = getIt(data[0])
 	if (webpage):
 		print "Access-Control-Allow-Headers: Content-type, Status"
