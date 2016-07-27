@@ -27,14 +27,12 @@ errors = {
 "success":0,
 "blocked":0
 }
-	data = helper.getArgs()
-	webpage = getIt(data[0])
 def Browse(loginPage):
 	global threads
 	global result
 	global errors
 	result = "undefined"
-	f = open("./allproxies.txt")
+	f = open("/cgi-bin/allproxies.txt")
 	for line in f:
 		tasks.put(line.replace("\n", ""))
 	f.close()
@@ -44,6 +42,14 @@ def Browse(loginPage):
 		if dead == False:
 			threads.append(gevent.spawn(download,loginPage))
 	gevent.joinall(threads)
+	if result == "undefined":
+		with open("/index.html","w") as display:
+			display.write("False")
+			display.close()
+	else:
+		with open("/index.html","w") as display:
+			display.write(result.content)
+			display.close()
 	return {"output":result,
 	"errors":errors}
 def download(loginPage):
@@ -66,7 +72,7 @@ def download(loginPage):
 		while True:
 			try:
 				r = bytearray()
-				text = ""
+				text = "a"
 				with Timeout(timeperiod,False):
 					#print ip+" "+ loginPage
 					start = time.time()
@@ -110,9 +116,6 @@ def download(loginPage):
 					if ("gRecaptchaCallback" not in r.text) and ("Invalid domain for site key" not in r.text) and ("traffic from your computer network " not in r.text) and ("Please enter the text below" not in r.text) and ("To continue, please type the characters below:" not in r.text) and ("has been blocked" not in r.text) and ("503 Service" not in r.text) and ("MOE Denied Access Policy" not in r.text) and ("IP has been automatically blocked" not in r.text):
 						print "Success with ip: "+ip
 						errors["success"] = errors["success"] +1
-						with open("/index.html","w") as display:
-							display.write(r.content)
-							display.close()
 						s.close()
 						dead = True
 						result = r
@@ -129,8 +132,18 @@ def download(loginPage):
 					break
 if __name__ == "__main__":
 	data = helper.getArgs()
+	data = ["http://cosprings.craigslist.org/fb/cos/hss/5702396366"]
+	data = ["http://boston.craigslist.org/fb/bos/hss/5702634214"]
+	data = ["http://orangecounty.craigslist.org/fb/orc/sks/5702464926"]
 	webpage = Browse(data[0])
-	print webpage["output"].text
+	print "Access-Control-Allow-Headers: Content-type, Status"
+	print "Content-Type: text/html; charset="
+	print "Access-Control-Allow-Origin: *"
+	print
+	if webpage["output"] == "undefined":
+		print "False"
+	else: 
+		print "True"
 	#urlList = []
 	#urlList.append("http://seattle.craigslist.org/fb/sea/hss/5698956365")
 	#urlList.append("http://miami.craigslist.org/fb/mia/hss/5701599465")
