@@ -132,9 +132,10 @@ def download(loginPage):
 					break
 if __name__ == "__main__":
 	data = helper.getArgs()
-	data = ["http://cosprings.craigslist.org/fb/cos/hss/5702396366"]
-	data = ["http://boston.craigslist.org/fb/bos/hss/5702634214"]
-	data = ["http://orangecounty.craigslist.org/fb/orc/sks/5702464926"]
+	#data = ["http://cosprings.craigslist.org/fb/cos/hss/5702396366"]
+	#data = ["http://boston.craigslist.org/fb/bos/hss/5702634214"]
+	#data = ["http://washingtondc.craigslist.org/fb/wdc/sks/5703390938"]
+	data = ["http://albuquerque.craigslist.org/fb/abq/hss/5703388147"]
 	webpage = Browse(data[0])
 	print "Access-Control-Allow-Headers: Content-type, Status"
 	print "Content-Type: text/html; charset="
@@ -143,7 +144,9 @@ if __name__ == "__main__":
 	if webpage["output"] == "undefined":
 		print "False"
 	else: 
-		print "True"
+		print "{"
+		print "\"url\":"+"\""+webpage["output"].url+"\""
+		print "}"
 	#urlList = []
 	#urlList.append("http://seattle.craigslist.org/fb/sea/hss/5698956365")
 	#urlList.append("http://miami.craigslist.org/fb/mia/hss/5701599465")
