@@ -27,7 +27,7 @@ errors = {
 "success":0,
 "blocked":0
 }
-def Browse(loginPage):
+def Browse(url):
 	global threads
 	global result
 	global errors
@@ -40,7 +40,7 @@ def Browse(loginPage):
 	errors["totalips"] = tasks.qsize()
 	for x in range(50):
 		if dead == False:
-			threads.append(gevent.spawn(download,loginPage))
+			threads.append(gevent.spawn(download,url))
 	gevent.joinall(threads)
 	if result == "undefined":
 		with open("/index.html","w") as display:
@@ -52,7 +52,7 @@ def Browse(loginPage):
 			display.close()
 	return {"output":result,
 	"errors":errors}
-def download(loginPage):
+def download(url):
 	global dead
 	global threads
 	global result
@@ -74,9 +74,8 @@ def download(loginPage):
 				r = bytearray()
 				text = "a"
 				with Timeout(timeperiod,False):
-					#print ip+" "+ loginPage
 					start = time.time()
-					r = s.get(loginPage,headers=headers, proxies={"https":"https://"+ip}, verify=False)
+					r = s.get(url,headers=headers, proxies={"https":"https://"+ip}, verify=False)
 					end = time.time()
 					text = r.text
 					timelist.append(end-start)
@@ -132,11 +131,13 @@ def download(loginPage):
 					break
 if __name__ == "__main__":
 	data = helper.getArgs()
+	url = data[1]+"://"+data[0]
 	#data = ["http://cosprings.craigslist.org/fb/cos/hss/5702396366"]
 	#data = ["http://boston.craigslist.org/fb/bos/hss/5702634214"]
 	#data = ["http://washingtondc.craigslist.org/fb/wdc/sks/5703390938"]
-	data = ["http://albuquerque.craigslist.org/fb/abq/hss/5703388147"]
-	webpage = Browse(data[0])
+	#data = ["http://albuquerque.craigslist.org/fb/abq/hss/5703388147"]
+	#data = ["http://victoriatx.craigslist.org/fb/vtx/hss/5703365758"]
+	webpage = Browse(url)
 	print "Access-Control-Allow-Headers: Content-type, Status"
 	print "Content-Type: text/html; charset="
 	print "Access-Control-Allow-Origin: *"
