@@ -38,7 +38,7 @@ def Browse(url):
 	f.close()
 
 	errors["totalips"] = tasks.qsize()
-	for x in range(50):
+	for x in range(100):
 		if dead == False:
 			threads.append(gevent.spawn(download,url))
 	gevent.joinall(threads)
@@ -59,7 +59,7 @@ def download(url):
 	global errors
 	while not tasks.empty():
 		ip = tasks.get()
-		timeperiod =28
+		timeperiod =13
 		timelist = []
 		s = requests.Session()
 		headers = {
