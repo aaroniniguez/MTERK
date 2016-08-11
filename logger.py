@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import helper
+import time
 if __name__ == "__main__":
 	data = helper.getArgs()
+	data.reverse()
 	with open("/logger.txt", "a") as display:
+		display.write(time.strftime("%Y/%m/%d  %I:%M:%S  "))
 		for item in data:
 			display.write(item+"  ")
 		display.write("\n")
